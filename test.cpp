@@ -9,7 +9,7 @@ class Foo {
     public:
     int bar = 10;
     
-    safe_pointable _safe_pointer_context;
+    SAFE_POINTABLE;
 };
 
 

@@ -2,7 +2,7 @@
 
 namespace glaiel {
     class _safe_pointer_base {
-        friend class safe_pointable;
+        friend class safe_pointer_context;
         protected:
         void* ptr;
     };
@@ -54,13 +54,13 @@ namespace glaiel {
     };
 
 
-    class safe_pointable {
+    class safe_pointer_context {
         public:
         std::unordered_set<_safe_pointer_base*> pointers;
         
-        safe_pointable(){}
-        safe_pointable(const safe_pointable& rhs){} //do not copy rhs's pointer set
-        safe_pointable& operator=(const safe_pointable&rhs){} //do not copy rhs's pointer set
+        safe_pointer_context(){}
+        safe_pointer_context(const safe_pointer_context& rhs){} //do not copy rhs's pointer set
+        safe_pointer_context& operator=(const safe_pointer_context&rhs){} //do not copy rhs's pointer set
         
         
         void add(_safe_pointer_base* ptr){
@@ -70,10 +70,12 @@ namespace glaiel {
             pointers.erase(ptr);
         }
         
-        ~safe_pointable(){
+        ~safe_pointer_context(){
             for(auto ptr : pointers){
                 ptr->ptr = NULL;
             }
         }
     };
+    
+    #define SAFE_POINTABLE safe_pointer_context _safe_pointer_context
 }
